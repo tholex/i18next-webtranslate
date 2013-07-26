@@ -9,19 +9,27 @@
       , "npm": ">= 1.1.x"
     }
   , "dependencies": {
-      "grunt": "*"
-    , "grunt-contrib": ">=0.1.0"
+      "grunt": "0.4.x"
     , "requirejs": "2.0.6"
     , "express": ">= 3.0.x"
     , "stylus": ">= 0.24.0"
     , "nib": ">= 0.3.2"
-    , "jade": ">= 0.0.1"
     , "markdown": ">= 0.4.0"
-    , "handlebars": ">= 0.0.1"
     , "async": ">= 0.1.18"
     , "lodash": ">= 0.5.x"
     , "zipstream": ">=0.2.1"
     , "i18next": ">=1.5.0"
+    , "grunt-contrib-jshint": "latest"
+    , "grunt-contrib-jade": "latest"
+    , "grunt-contrib-handlebars": "latest"
+    , "grunt-contrib-uglify": "latest"
+    , "grunt-contrib-watch": "latest"
+    , "grunt-contrib-copy": "latest"
+    , "grunt-contrib-cssmin": "latest"
+    , "grunt-contrib-clean": "latest"
+    , "grunt-contrib-concat": "latest"
+    , "grunt-contrib-stylus": "latest"
+    , "grunt-contrib-requirejs": "latest"
     }
   , "devDependencies": {}
   , "scripts": {}

@@ -10,7 +10,7 @@
 
 module.exports = function(grunt) {
 
-  var _ = grunt.utils._;
+  var _ = grunt.util._;
   // Shorthand Grunt functions
   var log = grunt.log;
 
@@ -58,7 +58,7 @@ module.exports = function(grunt) {
     log.writeln("Listening on http://" + options.host + ":" + options.port);
   });
 
-  grunt.registerHelper("server", function(options) {
+  exports.server = function(options) {
     // Require libraries.
     var fs = require("fs");
     var path = require("path");
@@ -116,6 +116,6 @@ module.exports = function(grunt) {
 
     // Actually listen
     site.listen(options.port, options.host);
-  });
+  };
 
 };

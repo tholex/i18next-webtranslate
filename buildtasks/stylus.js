@@ -44,7 +44,7 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerHelper('stylus', function(src, options, fn) {
+  exports.stylus = function(src, options, fn) {
     var s = stylus(src)
         .define('url', stylus.url({ paths: [__dirname + '/../client/assets/a/b'] }))
         .use(nib())
@@ -60,6 +60,6 @@ module.exports = function(grunt) {
       }
       fn(err, css);
     });
-  });
+  };
 
 };

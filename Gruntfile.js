@@ -4,8 +4,18 @@
 //
 module.exports = function(grunt) {
 
-  grunt.loadNpmTasks('grunt-contrib');
   grunt.loadTasks("buildtasks");
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-jade');
+  grunt.loadNpmTasks('grunt-contrib-handlebars');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-stylus');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
 
   grunt.initConfig({
 
@@ -21,11 +31,10 @@ module.exports = function(grunt) {
     // that no files linger from previous builds.
     clean: ["client/dist/", "client/assets/templates"],
 
-    // The lint task will run the build configuration and the application
+    // The jshint task will run the build configuration and the application
     // JavaScript through JSHint and report any errors.  You can change the
     // options for this task, by reading this:
-    // https://github.com/cowboy/grunt/blob/master/docs/task_lint.md
-    lint: {
+    jshint: {
       files: [
         /*"build/config.js", */"client/app/**/*.js"
       ]
@@ -63,12 +72,12 @@ module.exports = function(grunt) {
     },
 
     jade: {
-      "client/assets/templates": [
-        "client/app/modules/**/*.jade"
-      ],
-      "client/assets/templates/admin": [
-        "client/app/admin/**/*.jade"
-      ]
+      dist: {
+        files: {
+          "client/assets/templates": [ "client/app/modules/**/*.jade" ],
+          "client/assets/templates/admin": [ "client/app/admin/**/*.jade" ]
+        }
+      }
     },
 
     handlebars: {
@@ -89,11 +98,11 @@ module.exports = function(grunt) {
       ]
     },
 
-    // This task uses the MinCSS Node.js project to take all your CSS files in
+    // This task uses the cssmin Node.js project to take all your CSS files in
     // order and concatenate them into a single CSS file named index.css.  It
     // also minifies all the CSS as well.  This is named index.css, because we
     // only want to load one stylesheet in index.html.
-    mincss: {
+    cssmin: {
       "client/dist/release/i18nextWT.css": [
         "client/assets/css/bootstrap-2.0.2.css",
         "client/assets/css/bootstrap-responsive-2.0.2.css",
@@ -200,22 +209,26 @@ module.exports = function(grunt) {
     // This task uses James Burke's excellent r.js AMD build tool.  In the
     // future other builders may be contributed as drop-in alternatives.
     requirejs: {
-      // Include the main configuration file
-      mainConfigFile: "client/app/config.js",
+      compile: {
+        options: {
+          // Include the main configuration file
+          mainConfigFile: "client/app/config.js",
 
-      // Output file
-      out: "client/dist/debug/require.js",
+          // Output file
+          out: "client/dist/debug/require.js",
 
-      excludeShallow: [
-          "admin/adminViews"
-        //, "modules/common/personProfile"
-      ],
+          excludeShallow: [
+            "admin/adminViews"
+            //, "modules/common/personProfile"
+          ],
 
-      // Root application module
-      name: "config",
+          // Root application module
+          name: "config",
 
-      // Do not wrap everything in an IIFE
-      wrap: false
+          // Do not wrap everything in an IIFE
+          wrap: false
+        }
+      }
     },
 
     watch: {
@@ -232,12 +245,12 @@ module.exports = function(grunt) {
 
   });
 
-  // The default task will remove all contents inside the dist/ folder, lint
+  // The default task will remove all contents inside the dist/ folder, jshint
   // all your code, precompile all the underscore templates into
   // dist/debug/templates.js, compile all the application code into
   // dist/debug/require.js, and then concatenate the require/define shim
   // almond.js and dist/debug/templates.js into the require.js file.
-  grunt.registerTask("default", "clean lint jade stylus handlebars requirejs concat");
+  grunt.registerTask("default", ["clean","jshint","jade","stylus","handlebars","requirejs","concat"]);
 
   // The debug task is simply an alias to default to remain consistent with
   // debug/release.
@@ -245,6 +258,6 @@ module.exports = function(grunt) {
 
   // The release task will run the debug tasks and then minify the
   // dist/debug/require.js file and CSS files.
-  grunt.registerTask("release", "default min mincss copy compress");
+  grunt.registerTask("release", ["default","min","cssmin","copy","compress"]);
 
 };

@@ -15,7 +15,7 @@ module.exports = function(grunt) {
   var path = require("path");
   // Include requirejs
   var requirejs = require("requirejs");
-  var _ = grunt.utils._;
+  var _ = grunt.util._;
   // Shorthand Grunt functions
   var log = grunt.log;
 
@@ -48,11 +48,11 @@ module.exports = function(grunt) {
     grunt.helper("list", path.normalize(baseUrl + "/"));
   });
 
-  grunt.registerHelper("r.js", function(options, done) {
+  exports.rjs = function(options, done) {
     requirejs.optimize(options, done);
-  });
+  };
 
-  grunt.registerHelper("list", function(appDir) {
+  exports.list = function(appDir) {
     var jsRegExp = /\.js$/;
 
     requirejs.tools.useLib(function(require) {
@@ -89,9 +89,9 @@ module.exports = function(grunt) {
         console.log(grunt.helper("tree", deps));
       });
     });
-  });
+  };
 
-  grunt.registerHelper("tree", function(obj) {
+  exports.tree = function(obj) {
     var tree = [""];
 
     function spaces(len, end, start) {
@@ -145,6 +145,6 @@ module.exports = function(grunt) {
     tree.pop();
 
     return tree.join("\n");
-  });
+  }
 
 };
