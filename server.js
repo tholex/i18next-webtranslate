@@ -7,9 +7,9 @@ var express = require('express')
 
 // use filesys
 i18n.init({
-    ns: { namespaces: ['ns.common', 'ns.app', 'ns.layout', 'ns.msg', 'ns.public', 'ns.special'], defaultNs: 'ns.common'},
-    preload: ['en', 'zh', 'de', 'fr', 'it', 'dev'],
-    resSetPath: 'locales/__lng__/new.__ns__.json',
+    ns: { namespaces: ['ns.common', 'ns.app', 'ns.layout', 'ns.msg', 'ns.public'], defaultNs: 'ns.common'},
+    preload: ['de', 'fr'],
+    resSetPath: 'locales/__lng__/__ns__.json',
     saveMissing: true,
     debug: true
 });
@@ -67,4 +67,4 @@ i18n.registerAppHelper(app)
  var http = require('http')
    , server = http.createServer(app);
 
-server.listen(3000);
+server.listen(3005);

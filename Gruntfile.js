@@ -117,7 +117,8 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          {dest: "client/dist/release/assets", expand: true, cwd: "client/assets/", src: ["client/assets/font/**/*", "client/assets/img/**/*"], filter: "isFile"},
+          {dest: "client/dist/release/assets", expand: true, cwd: "client/assets/", src: ["font/**/*"], filter: "isFile"},
+          {dest: "client/dist/release/assets", expand: true, cwd: "client/assets/", src: ["/img/**/*"], filter: "isFile"},
           {dest: "client/dist/release/css/i18nextWT.css", src: ["client/dist/release/i18nextWT.css"]},
           {dest: "client/dist/release/js/i18nextWT.js", src: ["client/dist/release/i18nextWT.js"]},
           {dest: "client/dist/release/", expand: true, flatten: true, src: ["client/assets/index.html", "client/assets/favicon.ico"], filter: "isFile"}
