@@ -31,15 +31,6 @@ module.exports = function(grunt) {
     // that no files linger from previous builds.
     clean: ["client/dist/", "client/assets/templates"],
 
-    // The jshint task will run the build configuration and the application
-    // JavaScript through JSHint and report any errors.  You can change the
-    // options for this task, by reading this:
-    jshint: {
-      files: [
-        /*"build/config.js", */"client/app/**/*.js"
-      ]
-    },
-
     // The jshint option for scripturl is set to lax, because the anchor
     // override inside main.js needs to test for them so as to not accidentally
     // route.
@@ -74,8 +65,10 @@ module.exports = function(grunt) {
     jade: {
       dist: {
         files: {
-          "client/assets/templates": [ "client/app/modules/**/*.jade" ],
-          "client/assets/templates/admin": [ "client/app/admin/**/*.jade" ]
+          "client/assets/templates/footer.html": "client/app/modules/layout/footer.jade",
+          "client/assets/templates/header.html": "client/app/modules/layout/header.jade",
+          "client/assets/templates/resourceEditorItem.html": "client/app/modules/translate/resourceEditorItem.jade",
+          "client/assets/templates/resourceEditorLayout.html": "client/app/modules/translate/resourceEditorLayout.jade"
         }
       }
     },
@@ -113,36 +106,22 @@ module.exports = function(grunt) {
     },
 
     // Takes the built require.js file and minifies it for filesize benefits.
-    min: {
-      "client/dist/release/i18nextWT.js": [
-        "client/dist/debug/require.js"
-      ]
+    uglify: {
+      dist: {
+        files: {
+          "client/dist/release/i18nextWT.js": [ "client/dist/debug/require.js" ]
+        }
+      }
     },
 
     copy: {
-      assets: {
-        options: { basePath: "client/assets" },
-        files: {
-          "client/dist/release/assets": ["client/assets/font/**/*", "client/assets/img/**/*"]
-        }
-      },
-      css: {
-        options: { basePath: "client/dist/release" },
-        files: {
-          "client/dist/release/assets/css": "client/dist/release/i18nextWT.css"
-        }
-      },
-      js: {
-        options: { basePath: "client/dist/release" },
-        files: {
-          "client/dist/release/assets/js": "client/dist/release/i18nextWT.js"
-        }
-      },
-      files: {
-        options: { basePath: "client/assets" },
-        files: {
-          "client/dist/release/assets": ["client/assets/index.html", "client/assets/favicon.ico"]
-        }
+      main: {
+        files: [
+          {dest: "client/dist/release/assets", expand: true, src: ["client/assets/font/**/*", "client/assets/img/**/*"], filter: "isFile"},
+          {dest: "client/dist/release/assets/css", src: ["client/dist/release/i18nextWT.css"]},
+          {dest: "client/dist/release/assets/js", src: ["client/dist/release/i18nextWT.js"]},
+          {dest: "client/dist/release/assets", expand: true, src: ["client/assets/index.html", "client/assets/favicon.ico"], filter: "isFile"}
+        ]
       }
     },
 
@@ -206,8 +185,7 @@ module.exports = function(grunt) {
     //   }
     // },
 
-    // This task uses James Burke's excellent r.js AMD build tool.  In the
-    // future other builders may be contributed as drop-in alternatives.
+    // grunt-contrib-requirejs
     requirejs: {
       compile: {
         options: {
@@ -258,6 +236,6 @@ module.exports = function(grunt) {
 
   // The release task will run the debug tasks and then minify the
   // dist/debug/require.js file and CSS files.
-  grunt.registerTask("release", ["default","min","cssmin","copy","compress"]);
+  grunt.registerTask("release", ["default", "uglify" ,"cssmin","copy"]);
 
 };

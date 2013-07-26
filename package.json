@@ -30,6 +30,7 @@
     , "grunt-contrib-concat": "latest"
     , "grunt-contrib-stylus": "latest"
     , "grunt-contrib-requirejs": "latest"
+    , "grunt-contrib-uglify": "latest"
     }
   , "devDependencies": {}
   , "scripts": {}
